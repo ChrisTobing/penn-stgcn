@@ -1,0 +1,23 @@
+# ─── Training hyperparameters ─────────────────────────────────────────────────
+# Outcome of 20-run Bayesian W&B sweep on the baseline model.
+# lr ~ 0.001-0.003 dominated high-performing runs; other params less sensitive.
+
+lr:           0.001
+weight_decay: 1.0e-5
+batch_size:   64
+dropout:      0.2
+num_epochs:   200          # hard ceiling — early stopping triggers first
+val_ratio:    0.20
+seed:         42
+
+# ─── Early stopping ──────────────────────────────────────────────────────────
+es_patience:  15           # epochs without val_loss improvement before stopping
+es_min_delta: 0.001        # minimum decrease to count as improvement
+
+# ─── Model ────────────────────────────────────────────────────────────────────
+adaptive:     false        # true = A+B+C (Shi et al. CVPR 2019), false = fixed A
+augmentation: true         # apply skeleton augmentation to training data
+
+# ─── W&B ──────────────────────────────────────────────────────────────────────
+wandb_project: stgcn-penn-action
+wandb_entity:  null        # your wandb username/team, or null

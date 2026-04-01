@@ -1,6 +1,6 @@
 # Lightweight ST-GCN for Exercise-Based Action Recognition
 
-BSc Computer Science Dissertation — University of Leeds, 2024/2025.
+BSc Computer Science Dissertation — University of Leeds, 2025/2026.
 
 A 6-block Spatial-Temporal Graph Convolutional Network (ST-GCN) trained on the
 Penn Action Dataset (13 joints, 15 classes) with two incremental improvements:

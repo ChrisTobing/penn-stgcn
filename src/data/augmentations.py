@@ -31,7 +31,8 @@ def augment_rotate(sequence: np.ndarray, angle_range: tuple = (5.0, 20.0)) -> np
     Returns:
         (T, V, C=2) float32 array
     """
-    theta = np.radians(np.random.uniform(angle_range[0], angle_range[1]))
+    sign = np.random.choice([-1, 1])
+    theta = np.radians(sign * np.random.uniform(angle_range[0], angle_range[1]))
     cos_t, sin_t = np.cos(theta), np.sin(theta)
     R = np.array([[cos_t, -sin_t],
                   [sin_t,  cos_t]], dtype=np.float32)
@@ -73,22 +74,21 @@ def augment_time_interpolation(sequence: np.ndarray, gamma: int = 2) -> np.ndarr
         (T, V, C=2) float32 array
     """
     T, V, C = sequence.shape
-    T_out = T * gamma
-    output = np.empty((T_out, V, C), dtype=np.float32)
+    T_dense = T * gamma
 
-    # Region 1: preserve originals
-    output[:T] = sequence
+    # Build densified sequence via linear interpolation between original frames
+    dense = np.empty((T_dense, V, C), dtype=np.float32)
+    for t in range(T_dense):
+        src = t / gamma                       # continuous position in original
+        lo = int(np.floor(src))
+        hi = min(lo + 1, T - 1)
+        w = src - lo                          # fractional interpolation weight
+        dense[t] = sequence[lo] + w * (sequence[hi] - sequence[lo])
 
-    # Region 2: interpolated frames
-    for t in range(T, T_out):
-        src_lo = int(np.floor(t / gamma))
-        src_hi = min(src_lo + 1, T - 1)
-        weight = float((gamma * t) % gamma) / gamma
-        output[t] = sequence[src_lo] + weight * (sequence[src_hi] - sequence[src_lo])
-
-    # Uniform stride-sample across full densified sequence
-    indices = np.linspace(0, T_out - 1, T, dtype=int)
-    return output[indices]
+    # Random-offset stride-sample back to T frames (offset provides the jitter)
+    offset = np.random.randint(0, gamma)
+    indices = np.arange(offset, T_dense, gamma)[:T]
+    return dense[indices]
 
 
 def augment_time_warp(

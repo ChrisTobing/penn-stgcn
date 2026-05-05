@@ -33,7 +33,7 @@ penn-action-stgcn/
 │   ├── train.py                  # CLI: python scripts/train.py --config configs/best_config.yaml
 │   └── evaluate.py               # CLI: python scripts/evaluate.py --checkpoint ...
 ├── notebooks/
-│   └── colab_runner.ipynb        # Colab entry point — imports from src/
+│   └── PENN_STGCN_FINAL_VERSION.ipynb  # Self-contained Google Colab notebook
 └── outputs/                      # .gitignored — checkpoints, figures, W&B logs
 ```
 
@@ -80,10 +80,17 @@ python scripts/train.py --config configs/best_config.yaml --no-augmentation
 python scripts/evaluate.py --checkpoint outputs/checkpoints/best_model.pth
 ```
 
-### Google Colab
+### Google Colab (recommended for easy reproduction)
 
-Open `notebooks/colab_runner.ipynb` in Colab. It clones the repo, adds `src/` to the
-Python path, and runs preprocessing + training via imports.
+For a zero-setup run, open [`notebooks/PENN_STGCN_FINAL_VERSION.ipynb`](notebooks/PENN_STGCN_FINAL_VERSION.ipynb)
+in Google Colab. The notebook is the original self-contained version of this
+project — preprocessing, model, training, augmentation, adaptive adjacency,
+and four-stream fusion are all defined inline, so no local clone or
+`pip install` is required.
+
+**Only dependency**: place the Penn Action `.tar` archive in your Google Drive.
+The notebook mounts Drive, extracts the dataset, and runs end-to-end on Colab's
+GPU runtime.
 
 ## Key Results
 

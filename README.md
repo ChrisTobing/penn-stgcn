@@ -131,17 +131,8 @@ GPU runtime.
 
 | Configuration                     | Test Acc (%) |
 |-----------------------------------|-------------|
-| (1) Baseline ST-GCN               | 81.65       |
-| (2) + Augmentation                 | 83.80       |
-| (3) + Adaptive Adjacency           | 79.68       |
-
-Adaptive adjacency underperforms on Penn Action's small training set (~1,258 samples),
-consistent with the technique being designed for larger datasets (NTU RGB+D, 40K+ samples).
-This is analysed as a well-motivated negative finding in the dissertation.
-
-## References
-
-- Yan et al., "Spatial Temporal Graph Convolutional Networks for Skeleton-Based Action Recognition," AAAI 2018.
-- Shi et al., "Two-Stream Adaptive Graph Convolutional Networks for Skeleton-Based Action Recognition," CVPR 2019.
-- Shi et al., "Skeleton-Based Action Recognition with Multi-Stream Adaptive Graph Convolutional Networks," IEEE TIP 2020.
-- Zhang et al., "From Actemes to Action," ICCV 2013 (Penn Action Dataset).
+| (1) Baseline ST-GCN               | 77.62       |
+| (2) + Augmentation                 | 81.65       |
+| (3) + Adaptive Adjacency           | 79.31       |
+| (4) + Four-stream fusion + Augmentation  | 95.13  |
+| (5) + Four-stream + No Augmentation      | 95.69  |
